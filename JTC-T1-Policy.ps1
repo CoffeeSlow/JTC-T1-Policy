@@ -305,16 +305,28 @@ $suspiciousFiles = @(
     "thunderclient", "celex", "matrix", "triggerbot", "solara.exe", "xeno.exe", 
     "cloudy", "tupical", "horizon", "myst", "celery", "zarora", "juju", "nezure", 
     "FusionHacks.zip", "release.zip", "aimmy.exe", "aimmy", "Fluxus", "clumsy", 
-    "build.zip", "build.rar", "MystW.exe", "isabelle", "dx9ware"
+    "build.zip", "build.rar", "MystW.exe", "isabelle", "dx9ware",
+    "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
+    "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
+    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe"
 )
 $suspiciousList = @(
     "isabelle", "xeno.exe", "solara.exe", "bootstrappernew", "loader.exe", 
     "santoware", "mystw", "severe", "mapper.exe", "thunderclient", "monkeyaim", 
-    "olduimatrix", "matrix", "matcha.exe"
+    "olduimatrix", "matrix", "matcha.exe",
+    "volt", "potassium", "cosmic", "volcano", "isaeva", "synapsez",
+    "velocity", "seliware", "bunni.fun", "sirhurt", "hydrogen",
+    "macsploit", "opiumware", "delta", "cryptic", "vegax", "codex",
+    "serotonin", "rbxcli", "ronin", "photon"
 )
 $watchlist = @(
     "BOOTSTRAPPERNEW.EXE", "XENO.EXE", "XENOUI.EXE", "SOLARA.EXE", 
-    "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE"
+    "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
+    "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
+    "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE"
 )
 $allSuspicious = $suspiciousFiles + $suspiciousList + $watchlist
 
@@ -552,7 +564,15 @@ $suspiciousCombined = @(
     "clumsy", "build.zip", "build.rar", "MystW.exe", "isabelle", "dx9ware", 
     "bootstrappernew", "loader.exe", "santoware", "mystw", "severe", "mapper.exe",
     "BOOTSTRAPPERNEW.EXE", "XENO.EXE", "XENOUI.EXE", "SOLARA.EXE", 
-    "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE"
+    "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
+    "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
+    "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
+    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
+    "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
+    "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE"
 )
 
 try {
