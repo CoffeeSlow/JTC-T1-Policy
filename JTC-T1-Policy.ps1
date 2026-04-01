@@ -309,7 +309,8 @@ $suspiciousFiles = @(
     "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
     "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
-    "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe"
+    "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
+    "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe", "ue.exe", "uev2.exe"
 )
 $suspiciousList = @(
     "isabelle", "xeno.exe", "solara.exe", "bootstrappernew", "loader.exe", 
@@ -318,7 +319,8 @@ $suspiciousList = @(
     "volt", "potassium", "cosmic", "volcano", "isaeva", "synapsez",
     "velocity", "seliware", "bunni.fun", "sirhurt", "hydrogen",
     "macsploit", "opiumware", "delta", "cryptic", "vegax", "codex",
-    "serotonin", "rbxcli", "ronin", "photon"
+    "serotonin", "rbxcli", "ronin", "photon",
+    "kiciahook", "kiciahookv2", "snaw", "robloxdma", "ue", "uev2"
 )
 $watchlist = @(
     "BOOTSTRAPPERNEW.EXE", "XENO.EXE", "XENOUI.EXE", "SOLARA.EXE", 
@@ -326,7 +328,8 @@ $watchlist = @(
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
     "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
-    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE"
+    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
+    "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE", "UE.EXE", "UEV2.EXE"
 )
 $allSuspicious = $suspiciousFiles + $suspiciousList + $watchlist
 
@@ -569,10 +572,12 @@ $suspiciousCombined = @(
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
     "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
     "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
+    "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe", "ue.exe", "uev2.exe",
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
     "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
-    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE"
+    "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
+    "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE", "UE.EXE", "UEV2.EXE"
 )
 
 try {
