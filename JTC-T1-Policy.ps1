@@ -308,7 +308,7 @@ $suspiciousFiles = @(
     "build.zip", "build.rar", "MystW.exe", "isabelle", "dx9ware",
     "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
-    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "macsploit.exe", "opiumware.exe", "cryptic.exe", "vegax.exe", "codex.exe",
     "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
     "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe"
 )
@@ -318,7 +318,7 @@ $suspiciousList = @(
     "olduimatrix", "matrix", "matcha.exe",
     "volt", "potassium", "cosmic", "volcano", "isaeva", "synapsez",
     "velocity", "seliware", "bunni.fun", "sirhurt", "hydrogen",
-    "macsploit", "opiumware", "delta", "cryptic", "vegax", "codex",
+    "macsploit", "opiumware", "cryptic", "vegax", "codex",
     "serotonin", "rbxcli", "ronin", "photon",
     "kiciahook", "kiciahookv2", "snaw", "robloxdma"
 )
@@ -327,7 +327,7 @@ $watchlist = @(
     "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
-    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
     "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
     "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE"
 )
@@ -571,12 +571,12 @@ $suspiciousCombined = @(
     "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
     "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
-    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "macsploit.exe", "opiumware.exe", "cryptic.exe", "vegax.exe", "codex.exe",
     "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
     "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe",
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
-    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
     "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
     "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE"
 )
