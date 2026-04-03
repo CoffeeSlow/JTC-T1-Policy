@@ -453,14 +453,15 @@ $zipUrl = "https://download.sysinternals.com/files/ProcessExplorer.zip"
 $zipPath = Join-Path $baseFolder "ProcessExplorer.zip"
 
 if (Test-Path $baseFolder) {
-    Get-ChildItem -Path $baseFolder -Force -Recurse | ForEach-Object {
-        try {
-            if ($_.Attributes -band [System.IO.FileAttributes]::ReadOnly) { $_.Attributes = $_.Attributes -bxor [System.IO.FileAttributes]::ReadOnly }
-            Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction Stop
-        } catch {}
+    $ErrorActionPreference = 'SilentlyContinue'
+    Remove-Item -Path $baseFolder -Recurse -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 500
+    if (-not (Test-Path $baseFolder)) {
+        New-Item -ItemType Directory -Path $baseFolder -ErrorAction SilentlyContinue | Out-Null
     }
+    $ErrorActionPreference = 'SilentlyContinue'
 } else {
-    New-Item -ItemType Directory -Path $baseFolder -ErrorAction Stop | Out-Null
+    New-Item -ItemType Directory -Path $baseFolder -ErrorAction SilentlyContinue | Out-Null
 }
 
 try {
