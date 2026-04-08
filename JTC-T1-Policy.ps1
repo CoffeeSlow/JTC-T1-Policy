@@ -207,6 +207,7 @@ $defenderOutput = @()
 $exclusionsOutput = @()
 $threatsOutput = @()
 $powershellSigOutput = @()
+$vmOutput = @()
 
 $defaultModules = @("Microsoft.PowerShell.Archive", "Microsoft.PowerShell.Diagnostics", "Microsoft.PowerShell.Host", "Microsoft.PowerShell.LocalAccounts", "Microsoft.PowerShell.Management", "Microsoft.PowerShell.Security", "Microsoft.PowerShell.Utility", "PackageManagement", "PowerShellGet", "PSReadLine", "Pester", "ThreadJob")
 $protectedModule = "Microsoft.PowerShell.Operation.Validation"
@@ -277,6 +278,54 @@ try {
     $powershellSigOutput += "WARNING: PowerShell signature check failed."
 }
 
+# VM Detection
+$vmDetected = $false
+
+$vmRegistryKeys = @(
+    @{Path="HKLM:\SOFTWARE\VMware, Inc.\VMware Tools";                          Name="VMware"},
+    @{Path="HKLM:\SOFTWARE\Oracle\VirtualBox Guest Additions";                  Name="VirtualBox"},
+    @{Path="HKLM:\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters";         Name="Hyper-V"},
+    @{Path="HKLM:\SYSTEM\CurrentControlSet\Services\VBoxGuest";                 Name="VirtualBox"},
+    @{Path="HKLM:\SYSTEM\CurrentControlSet\Services\vmtools";                   Name="VMware"},
+    @{Path="HKLM:\SYSTEM\CurrentControlSet\Services\VMMEMCTL";                  Name="VMware"},
+    @{Path="HKLM:\SOFTWARE\QEMU";                                               Name="QEMU"},
+    @{Path="HKLM:\SYSTEM\CurrentControlSet\Services\VirtIO-FS Service";         Name="QEMU/KVM"}
+)
+
+foreach ($key in $vmRegistryKeys) {
+    if (Test-Path $key.Path) {
+        $vmDetected = $true
+        $vmOutput += "FAILURE: $($key.Name) VM registry key found."
+    }
+}
+
+try {
+    $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction Stop
+    $bios = Get-CimInstance Win32_BIOS -ErrorAction Stop
+    $vmKeywords = @("VMware", "VirtualBox", "VBOX", "QEMU", "Xen", "KVM", "Hyper-V", "Virtual Machine", "innotek")
+    foreach ($keyword in $vmKeywords) {
+        if ($cs.Model -imatch $keyword -or $cs.Manufacturer -imatch $keyword -or
+            $bios.SMBIOSBIOSVersion -imatch $keyword -or $bios.Manufacturer -imatch $keyword) {
+            $vmDetected = $true
+            $vmOutput += "FAILURE: VM hardware detected - $($cs.Manufacturer) $($cs.Model)"
+            break
+        }
+    }
+} catch {
+    $vmOutput += "WARNING: VM hardware check failed."
+}
+
+$vmProcessNames = @("vmtoolsd", "vmwaretray", "vmwareuser", "vboxservice", "vboxtray", "vboxguest", "qemu-ga")
+$runningVMProcs = Get-Process -ErrorAction SilentlyContinue | Where-Object { $vmProcessNames -contains $_.ProcessName.ToLower() }
+if ($runningVMProcs) {
+    $vmDetected = $true
+    foreach ($proc in $runningVMProcs) {
+        $vmOutput += "FAILURE: VM process running: $($proc.ProcessName)"
+    }
+}
+
+if (-not $vmDetected) { $vmOutput += "SUCCESS: No virtual machine detected." }
+
 Write-Section "PowerShell Modules" $modulesOutput
 Write-Section "Operating System" $windowsOutput
 Write-Section "Memory Integrity" $memoryIntegrityOutput
@@ -284,8 +333,9 @@ Write-Section "Windows Defender" $defenderOutput
 Write-Section "Defender Exclusions" $exclusionsOutput
 Write-Section "Threat Detection" $threatsOutput
 Write-Section "PowerShell Signature" $powershellSigOutput
+Write-Section "Virtual Machine Check" $vmOutput
 
-$allResults1 = $modulesOutput + $windowsOutput + $memoryIntegrityOutput + $defenderOutput + $exclusionsOutput + $threatsOutput + $powershellSigOutput
+$allResults1 = $modulesOutput + $windowsOutput + $memoryIntegrityOutput + $defenderOutput + $exclusionsOutput + $threatsOutput + $powershellSigOutput + $vmOutput
 $total1 = ($allResults1 | Where-Object { $_ -match '^(SUCCESS|FAILURE|WARNING)' }).Count
 $success1 = ($allResults1 | Where-Object { $_ -match '^SUCCESS' }).Count
 Write-StepResult -Success $success1 -Total $total1 -StepNumber 1
@@ -308,7 +358,7 @@ $suspiciousFiles = @(
     "build.zip", "build.rar", "MystW.exe", "isabelle", "dx9ware",
     "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
-    "macsploit.exe", "opiumware.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
     "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
     "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe"
 )
@@ -318,7 +368,7 @@ $suspiciousList = @(
     "olduimatrix", "matrix", "matcha.exe",
     "volt", "potassium", "cosmic", "volcano", "isaeva", "synapsez",
     "velocity", "seliware", "bunni.fun", "sirhurt", "hydrogen",
-    "macsploit", "opiumware", "cryptic", "vegax", "codex",
+    "macsploit", "opiumware", "delta", "cryptic", "vegax", "codex",
     "serotonin", "rbxcli", "ronin", "photon",
     "kiciahook", "kiciahookv2", "snaw", "robloxdma"
 )
@@ -327,10 +377,22 @@ $watchlist = @(
     "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
-    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
     "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
     "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE"
 )
+
+# Exclusions - known legitimate Windows/driver files that may match suspicious patterns
+$falsePositiveExclusions = @(
+    "AM_DELTA_PATCH",   # Windows Defender update files
+    "GLDRIVERQUERY",    # AMD/GPU driver query tool
+    "VULKANDRIVERQUERY",# AMD Vulkan driver tool
+    "AUEPMASTER",       # AMD Update Endpoint Master
+    "STARTMENUEXPERIENCEHOST", # Windows Start Menu
+    "GAMELOADER",       # Generic game launcher
+    "MICROSOFT.WINDOWS" # Windows system files
+)
+
 $allSuspicious = $suspiciousFiles + $suspiciousList + $watchlist
 
 $bamApps = @()
@@ -343,7 +405,8 @@ try {
             $timestamp = [BitConverter]::ToInt64($entry.Value, 0)
             $date = [DateTime]::FromFileTime($timestamp)
             $appPath = $entry.Name
-            $isSuspicious = [bool]($allSuspicious | Where-Object { $appPath -imatch $_ })
+            $isSuspicious = [bool]($allSuspicious | Where-Object { $appPath -imatch $_ }) -and
+                            -not [bool]($falsePositiveExclusions | Where-Object { $appPath -imatch $_ })
             $lastAccessTime = "N/A"
             if (Test-Path $appPath) {
                 $fileInfo = Get-Item $appPath
@@ -387,7 +450,8 @@ try {
     $isSuspiciousPrefetch = $false
     foreach ($file in $prefetchFiles) {
         $appName = $file.Name.Split('-')[0]
-        $isSuspicious = [bool]($allSuspicious | Where-Object { $appName -imatch $_ })
+        $isSuspicious = [bool]($allSuspicious | Where-Object { $appName -imatch $_ }) -and
+                        -not [bool]($falsePositiveExclusions | Where-Object { $appName -imatch $_ })
         $fileSize = [math]::Round($file.Length / 1KB, 2)
         $prefetchApps += [PSCustomObject]@{
             AppName = $appName
@@ -571,12 +635,12 @@ $suspiciousCombined = @(
     "MAPPER.EXE", "LOADER.EXE", "MATCHA.EXE", "EVOLVE.EXE",
     "volt.exe", "potassium.exe", "cosmic.exe", "volcano.exe", "isaeva.exe", "synapsez.exe",
     "velocity.exe", "seliware.exe", "bunni.fun.exe", "sirhurt.exe", "hydrogen.exe",
-    "macsploit.exe", "opiumware.exe", "cryptic.exe", "vegax.exe", "codex.exe",
+    "macsploit.exe", "opiumware.exe", "delta.exe", "cryptic.exe", "vegax.exe", "codex.exe",
     "serotonin.exe", "rbxcli.exe", "ronin.exe", "photon.exe",
     "kiciahook.exe", "kiciahookv2.exe", "snaw.exe", "robloxdma.exe",
     "VOLT.EXE", "POTASSIUM.EXE", "COSMIC.EXE", "VOLCANO.EXE", "ISAEVA.EXE", "SYNAPSEZ.EXE",
     "VELOCITY.EXE", "SELIWARE.EXE", "BUNNI.FUN.EXE", "SIRHURT.EXE", "HYDROGEN.EXE",
-    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
+    "MACSPLOIT.EXE", "OPIUMWARE.EXE", "DELTA.EXE", "CRYPTIC.EXE", "VEGAX.EXE", "CODEX.EXE",
     "SEROTONIN.EXE", "RBXCLI.EXE", "RONIN.EXE", "PHOTON.EXE",
     "KICIAHOOK.EXE", "KICIAHOOKV2.EXE", "SNAW.EXE", "ROBLOXDMA.EXE"
 )
@@ -585,6 +649,8 @@ try {
     $downloadFiles = Get-ChildItem "$env:USERPROFILE\Downloads" -File -Recurse -ErrorAction Stop
     $foundSuspicious = $false
     foreach ($file in $downloadFiles) {
+        $isExcluded = [bool]($falsePositiveExclusions | Where-Object { $file.Name -imatch $_ })
+        if ($isExcluded) { continue }
         foreach ($susp in $suspiciousCombined) {
             if ($file.Name -imatch [regex]::Escape($susp)) {
                 $step5Output += "FAILURE: Suspicious file: $($file.Name)"
@@ -604,6 +670,8 @@ try {
     $activeProcs = Get-Process | Select-Object -ExpandProperty ProcessName
     $foundSuspicious = $false
     foreach ($proc in $activeProcs) {
+        $isExcluded = [bool]($falsePositiveExclusions | Where-Object { $proc -imatch $_ })
+        if ($isExcluded) { continue }
         foreach ($susp in $suspiciousCombined) {
             if ($proc -imatch [regex]::Escape($susp)) {
                 $step5Output += "FAILURE: Suspicious process: $proc"
